@@ -20,14 +20,15 @@ import * as path from 'node:path';
  */
 function addMixinReferencePaths()
 {
-    const globPath = `${path.join(process.cwd(), './src')}/**/*.d.ts`;
+    const srcDir = path.join(process.cwd(), './src').replace(/\\/g, '/');
+    const globPath = `${srcDir}/**/*.d.ts`;
     const files = glob.sync(globPath);
 
     const lines: string[] = [];
 
     files.forEach((file) =>
     {
-        const name = file.split(`${process.cwd()}/src`)[1];
+        const name = file.split(srcDir)[1];
 
         lines.push(`/// <reference path=".${name}" />`);
     });
